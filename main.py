@@ -25,6 +25,7 @@ fgbg = cv.createBackgroundSubtractorMOG2()
 img = cv.imread("C:\\Users\\Parsa\OneDrive\\university\\semester 5\\AI\\FinalProject\\drop.png")
 img = cv.resize(img, (50, 50))
 
+k1 = k2 = 0
 while (True):
     ret, frame = cap.read()
     bg_learning_rate = 0
@@ -38,13 +39,19 @@ while (True):
     #         # print(x, y)
     #         film[x, y] = img[x, y]
 
-    place_image(k, 0, film, img)
+    place_image(k1, k2, film, img)
 
     cv.imshow('frame00', fgmask)
     cv.imshow('frame', film)
     k = cv.waitKey(1) & 0xff
     if k == 27:
         break
+
+    if k1 > 440:
+        k1 = 0
+    k1 += 4
+
+
 cap.release()
 cv.destroyAllWindows()
 
