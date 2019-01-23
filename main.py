@@ -5,6 +5,7 @@ from matplotlib import pyplot as plt
 
 index = []
 
+
 def place_image(start, end, frame):
     print(img[0, 0])
     for x in range(img.shape[0]):
@@ -30,6 +31,7 @@ def drop(mask, film):
             place_image(s - x, e - y, new_frame)
     return new_frame
 
+
 # cap = cv.VideoCapture("C:\\Users\\Parsa\\PycharmProjects\\ai_project_3\\1.mp4")
 cap = cv.VideoCapture(0)
 fgbg = cv.createBackgroundSubtractorKNN(history=5000)
@@ -37,11 +39,12 @@ fgbg = cv.createBackgroundSubtractorKNN(history=5000)
 img = cv.imread("C:\\Users\\Parsa\OneDrive\\university\\semester 5\\AI\\FinalProject\\drop.png")
 img = cv.resize(img, (7, 7))
 
-k1 = 0
+fourcc = cv.VideoWriter_fourcc(*'XVID')
+_, frame0 = cap.read()
+row, col, _ = frame0.shape
+out = cv.VideoWriter('output.avi', fourcc, 20.0, (col, row))
 
-execution = []
 while (True):
-
 
     ret, frame = cap.read()
     fgmask = fgbg.apply(frame, learningRate=0.02)
@@ -53,14 +56,15 @@ while (True):
 
     f = drop(morph, frame)
 
+    if ret:
+        out.write(f)
+
     cv.imshow('frame00', morph)
     cv.imshow('frame', f)
     k = cv.waitKey(1) & 0xff
     if k == 27:
         break
 
-
-
 cap.release()
+out.release()
 cv.destroyAllWindows()
-
