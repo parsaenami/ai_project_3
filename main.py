@@ -5,18 +5,17 @@ from matplotlib import pyplot as plt
 
 
 
-def place_image(s, e, backi, fori):
-    print(fori[0, 0])
-    for x in range(fori.shape[0]):
-        for y in range(fori.shape[1]):
-            # print(fori[x, y])
-            if (fori[x, y] != np.array([0, 0, 0])).all():
-                backi[s + x, e + y] = fori[x, y]
+def place_image(s, e, backi):
+    print(img[0, 0])
+    for x in range(img.shape[0]):
+        for y in range(img.shape[1]):
+            if (img[x, y] != np.array([0, 0, 0])).all():
+                backi[s + x, e + y] = img[x, y]
 
 
-def drop(t, film, img, k1):
-    # k1 = 0
-    place_image(0 + k1, t, film, img)
+def drop(mask, film):
+    new_frame = film.copy()
+    # place_image(0 + k1, t, film)
 
 
     # if k1 > 440:
@@ -46,8 +45,8 @@ while (True):
 
 
 
-    for d in range(1):
-        execution.append(r.randrange(film.shape[1] // 2))
+    # for d in range(1):
+    #     execution.append(r.randrange(film.shape[1] // 2))
         # k1 = 0
 
 
@@ -71,9 +70,9 @@ while (True):
     if k == 27:
         break
 
-    if k1 > 440:
-        k1 = 0
-    k1 += 4
+    # if k1 > 440:
+    #     k1 = 0
+    # k1 += 4
 
 
 
