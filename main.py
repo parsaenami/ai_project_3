@@ -13,13 +13,13 @@ img = cv.imread("C:\\Users\\Parsa\OneDrive\\university\\semester 5\\AI\\FinalPro
 img = cv.resize(img, (7, 7))
 
 
-def place_image(start, end, frame):
+def place_image(start, end, back_frame):
     print(img[0, 0])
 
     for x in range(img.shape[0]):
         for y in range(img.shape[1]):
             if (img[x, y] != np.array([0, 0, 0])).all():
-                frame[start + x, end + y] = img[x, y]
+                back_frame[start + x, end + y] = img[x, y]
 
 
 def drop(mask, film):
@@ -49,8 +49,7 @@ _, frame0 = cap.read()
 row, col, _ = frame0.shape
 out = cv.VideoWriter('output.avi', fourcc, 20.0, (col, row))
 
-while (True):
-
+while True:
     ret, frame = cap.read()
     fgmask = fgbg.apply(frame, learningRate=0.02)
 
