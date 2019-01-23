@@ -30,9 +30,9 @@ def drop(mask, film):
             place_image(s - x, e - y, new_frame)
     return new_frame
 
-
+# cap = cv.VideoCapture("C:\\Users\\Parsa\\PycharmProjects\\ai_project_3\\1.mp4")
 cap = cv.VideoCapture(0)
-fgbg = cv.createBackgroundSubtractorMOG2()
+fgbg = cv.createBackgroundSubtractorKNN(history=5000)
 
 img = cv.imread("C:\\Users\\Parsa\OneDrive\\university\\semester 5\\AI\\FinalProject\\drop.png")
 img = cv.resize(img, (7, 7))
@@ -44,13 +44,17 @@ while (True):
 
 
     ret, frame = cap.read()
-    bg_learning_rate = 0
-    fgmask = fgbg.apply(frame, learningRate=0.2)
+    fgmask = fgbg.apply(frame, learningRate=0.02)
+    morph = fgmask.copy()
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (4, 2))
+    morph = cv.morphologyEx(morph, cv.MORPH_CLOSE, kernel)
+    morph = cv.morphologyEx(morph, cv.MORPH_OPEN, kernel)
+    _, morph = cv.threshold(morph, 127, 255, cv.THRESH_BINARY)
 
-    success, film = cap.read()
+    f = drop(morph, frame)
 
-    cv.imshow('frame00', fgmask)
-    cv.imshow('frame', film)
+    cv.imshow('frame00', morph)
+    cv.imshow('frame', f)
     k = cv.waitKey(1) & 0xff
     if k == 27:
         break
