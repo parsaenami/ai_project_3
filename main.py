@@ -14,8 +14,6 @@ img = cv.resize(img, (7, 7))
 
 
 def place_image(start, end, back_frame):
-    print(img[0, 0])
-
     for x in range(img.shape[0]):
         for y in range(img.shape[1]):
             if (img[x, y] != np.array([0, 0, 0])).all():
@@ -24,6 +22,7 @@ def place_image(start, end, back_frame):
 
 def drop(mask, film):
     new_frame = film.copy()
+
     for d in range(3):
         index.append([0, r.randrange(new_frame.shape[1] - img.shape[1])])
 
@@ -36,11 +35,12 @@ def drop(mask, film):
 
         if (mask[s - x + 6, e - y + 4] == np.array([0, 0, 0])).all():
             if s <= mask.shape[0] - 30:
-                index[i] = [s + 30, y]
+                index[i] = [s + 30, e]
             place_image(s - x, e - y, new_frame)
 
         else:
             place_image(s - x, e - y, new_frame)
+
     return new_frame
 
 
